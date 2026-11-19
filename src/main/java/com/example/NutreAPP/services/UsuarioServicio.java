@@ -20,10 +20,13 @@ public class UsuarioServicio {
     private IUsuarioRepositorio repositorio;
 
     //metodo guardar
+
     public Usuario guardUsuario(Usuario datos){
         return this.repositorio.save(datos);
     }
+
     // metodo buscar por id
+
     public Usuario buscarPorId(UUID id){
         Optional<Usuario>usuarioBuscado = this.repositorio.findById(id);
 
@@ -35,11 +38,14 @@ public class UsuarioServicio {
             return usuarioBuscado.get();
         }
     }
-    // metodo para buscar por todos
+
+    // metodo para buscar todos
+
     public List<Usuario> buscarTodos(){
         return this.repositorio.findAll();
 
     }
+
     // metodo para modificar
 
     public Usuario modificarUsuario(UUID id, Usuario datos){
@@ -64,6 +70,7 @@ public class UsuarioServicio {
     }
 
     // metdo para eliminar
+    
     public boolean eliminarUsuario(UUID id){
         Optional<Usuario>usuarioBuscado = this.repositorio.findById(id);
 

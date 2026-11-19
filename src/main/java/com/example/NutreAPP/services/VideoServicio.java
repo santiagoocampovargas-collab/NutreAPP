@@ -15,10 +15,14 @@ import com.example.NutreAPP.repositories.IVideoRepositorio;
 public class VideoServicio {
     @Autowired
     private IVideoRepositorio repositorio;
+
+    //metodo guardar
     
     public Video guarVideo(Video datos){
         return this.repositorio.save(datos);
     }
+
+    // metodo buscar por id
 
     public Video buscarPorId(UUID id){
         Optional<Video> videoBuscado = this.repositorio.findById(id);
@@ -32,10 +36,14 @@ public class VideoServicio {
 
     }
 
+    // metodo para buscar todos
+
     public List<Video> buscarTodos(){
 
         return this.repositorio.findAll();
     }
+
+    // metodo para modificar
 
     public Video modificarVideo(UUID id, Video datos){
         Optional<Video> videoBuscado = this.repositorio.findById(id);
@@ -50,6 +58,8 @@ public class VideoServicio {
             return this.repositorio.save(videoExistente);
         }
     }
+
+    //metodo para eliminar
 
     public boolean eliminarVideo(UUID id){
         Optional<Video> videoBuscado = this.repositorio.findById(id);

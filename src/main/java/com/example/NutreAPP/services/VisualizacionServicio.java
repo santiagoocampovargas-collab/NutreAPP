@@ -17,9 +17,13 @@ public class VisualizacionServicio {
     @Autowired
     private IVisualizacionRepositorio repositorio;
 
+    //metodo guardar
+
     public Visualizacion guardarVisualizacion(Visualizacion datos){
         return this.repositorio.save(datos);
     }
+
+    // metodo buscar por id
 
     public Visualizacion buscarPorId(UUID id){
         Optional<Visualizacion> visualizacionBuscada = this.repositorio.findById(id);
@@ -30,10 +34,14 @@ public class VisualizacionServicio {
             return visualizacionBuscada.get();
         }
     } 
+
+    // metodo para buscar todos
     
     public List<Visualizacion> buscarTodos(){
         return this.repositorio.findAll();
     }
+
+    //metodo para eliminar
 
     public boolean eliminarVisualizacion(UUID id){
         Optional<Visualizacion> visualizacionBuscada = this.repositorio.findById(id);
