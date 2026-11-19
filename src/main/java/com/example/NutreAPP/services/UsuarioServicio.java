@@ -12,73 +12,70 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.NutreAPP.models.Usuario;
 import com.example.NutreAPP.repositories.IUsuarioRepositorio;
 
-@Service 
+@Service
 public class UsuarioServicio {
-
-    
-    
-    
-    
-    //metodo para eliminar
-
-    //metodo para buscar por departamento y rol
-    //metodo para buscar por correo
-    //metodo para buscar por rol
-    //metodo para verificar correo
-    
-    //metodo para guardar
-    @Autowired 
+    // Para programar los servicios necesito los repositorios 
+    // INYECCION DE DEPENDENCIAS
+    @Autowired
     private IUsuarioRepositorio repositorio;
 
-    public Usuario guardar(Usuario datos){
-        return  this.repositorio.save(datos);
-
-}
-
-
-//metodo para buscar por id
-
-
+    //metodo guardar
+    public Usuario guardUsuario(Usuario datos){
+        return this.repositorio.save(datos);
+    }
+    // metodo buscar por id
     public Usuario buscarPorId(UUID id){
-        Optional<Usuario> usuarioBuscado =this.repositorio.findById(id);
-        if(!usuarioBuscado.isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"id no encontrado");
+        Optional<Usuario>usuarioBuscado = this.repositorio.findById(id);
 
-        }else{
+        if (!usuarioBuscado.isPresent()){
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id no encontrado");
+
+        } else{
             return usuarioBuscado.get();
         }
-
     }
-
-
-    // //metodo para buscar todos
-
-    public List<Usuario> buscarTtodos(){
+    // metodo para buscar por todos
+    public List<Usuario> buscarTodos(){
         return this.repositorio.findAll();
+
     }
+    // metodo para modificar
 
-    //metodo para modificar
-
-    public Usuario modificar(UUID id, Usuario datos){
-         Optional<Usuario> usuarioBuscado =this.repositorio.findById(id);
-        if(!usuarioBuscado.isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"id no encontrado");
-
-        }else{
-
-            //1. precargar la infi que existe actualmente en bd
-            Usuario usuarioEncontrado=usuarioBuscado.get();
-
-            //2.espacio para modificar solo las propiedades permitidas
-            usuarioEncontrado.setNombre(datos.getNombre());
-            usuarioEncontrado.setRol(datos.getRol());
-
-            //3.espacio para volver a guardar el usuario que se acaba de modificar
-            return this.repositorio.save(usuarioEncontrado);
-            
-        }
-
+    public Usuario modificarUsuario(UUID id, Usuario datos){
         
+        Optional<Usuario>usuarioBuscado = this.repositorio.findById(id);
+
+        if (!usuarioBuscado.isPresent()){
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id no encontrado");
+
+        } else{
+            //1. precargar la info que existe actualmente en la base de datos
+            Usuario usuarioExistente = usuarioBuscado.get();
+
+            //2. Espacio para modificar las propiedades permitidas
+            usuarioExistente.setNombre(datos.getNombre());
+            usuarioExistente.setRol(datos.getRol()); 
+            
+            //3. Guardar la info modificada en la base de datos
+            return this.repositorio.save(usuarioExistente);
+        }
     }
 
+    // metdo para eliminar
+    public boolean eliminarUsuario(UUID id){
+        Optional<Usuario>usuarioBuscado = this.repositorio.findById(id);
+
+        if (!usuarioBuscado.isPresent()){
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id no encontrado");
+
+        } else{
+            this.repositorio.deleteById(id);
+            return true;
+        }
+    }
+    
+    
 }
